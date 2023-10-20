@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Qu24 MIDI</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.15/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #1a202c;
+            /* Dark background color */
+            color: #000000;
+            /* Text color */
+        }
+    </style>
+</head>
+
+<body class="py-10 flex justify-center items-center min-h-screen">
+    <div class="w-1/3 p-6 bg-white rounded-lg shadow-lg dark:bg-gray-700">
+        <h1 class="text-4xl text-center text-blue-500 font-bold">Channel Mutes</h1>
+        <div class="mt-4">
+            <label for="midiChannel" class="block text-sm text-black ">MIDI Channel</label>
+            <select name="channel" id="midiChannel" class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 dark:bg-gray-800 dark:text-gray-300">
+                <option value="90" selected>1</option>
+                <option value="91">2</option>
+                <option value="92">3</option>
+                <option value="93">4</option>
+            </select>
+        </div>
+        <div class="mt-4">
+            <label for="quChannel" class="block text-sm text-black ">Qu24 Channel</label>
+            <select name="quChannel" id="quChannel" class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 dark:bg-gray-800 dark:text-gray-300">
+                <option value="20">1</option>
+                <option value="21">2</option>
+                <option value="22">3</option>
+                <option value="23">4</option>
+                <option value="24">5</option>
+                <option value="25">6</option>
+                <option value="26">7</option>
+                <option value="27">8</option>
+                <option value="28">9</option>
+                <option value="29">10</option>
+                <option value="2A">11</option>
+                <option value="2B">12</option>
+                <option value="2C">13</option>
+                <option value="2D">14</option>
+                <option value="2E">15</option>
+                <option value="2F">16</option>
+                <option value="30">17</option>
+                <option value="31">18</option>
+                <option value="32">19</option>
+                <option value="33">20</option>
+                <option value="34">21</option>
+                <option value="35">22</option>
+                <option value="36">23</option>
+                <option value="37">24</option>
+            </select>
+        </div>
+        <div class="mt-4">
+            <label for="mute" class="block text-sm text-black ">Mute</label>
+            <select name="mute" id="mute" class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 dark:bg-gray-800 dark:text-gray-300">
+                <option value="3F" selected>Off</option>
+                <option value="7F">On</option>
+            </select>
+        </div>
+        <div class="mt-6">
+            <!-- Output | easy to copy, in code bubble -->
+            <span id="output" class="block text-black bg-gray-400 p-1 border-black border-solid border-2">
+                
+            </span>
+        </div>
+    </div>
+</body>
+
+
+<script>
+    const midiChannel = document.getElementById('midiChannel');
+    const quChannel = document.getElementById('quChannel');
+    const mute = document.getElementById('mute');
+    const output = document.getElementById('output');
+
+    function updateOutput() {
+        output.innerHTML = `${midiChannel.value} ${quChannel.value} ${mute.value} ${midiChannel.value-10} ${quChannel.value} 00`;
+    }
+
+    midiChannel.addEventListener('change', updateOutput);
+    quChannel.addEventListener('change', updateOutput);
+    mute.addEventListener('change', updateOutput);
+
+    updateOutput();
+</script>
+
+</html>
