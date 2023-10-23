@@ -1,3 +1,3 @@
 # Resources Used
 
-[Qu Midi Protocals](https://www.allen-heath.com/media/AH-MIDI-Control-V2.01-Help_Iss2.pdf)
+[Qu Midi Protocals](https://www.allen-heath.com/media/Qu_MIDI_Protocol_V1.9.pdf)
