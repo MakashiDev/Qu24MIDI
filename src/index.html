@@ -5,6 +5,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Qu24 MIDI</title>
 		<link rel="stylesheet" href="styles.css" />
+		<script src="https://cdn.tailwindcss.com"></script>
 		<script defer src="main.js"></script>
 		<script src="translate.js"></script>
 		<script src="updater.js"></script>
@@ -259,6 +260,15 @@
 					Close
 				</button>
 			</div>
+		</div>
+
+		<!-- Version Info -->
+		<div class="fixed flex flex-col">
+			<span class="text-xs text-gray-500"
+				>Version: <span id="version">Error</span></span
+			>
+
+			<span class="text-gray-500 text-xs">Made by Christian Furr</span>
 		</div>
 	</body>
 </html>

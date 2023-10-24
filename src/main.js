@@ -15,11 +15,13 @@ let levelsCopy = document.querySelector("#levelsCopy");
 // Check for updates
 const updater = new Updater("MakashiDev/Qu24_SysEx_Generator");
 async function checkForUpdates() {
-	const gitVersion = await updater.getGitVerion();
+	const gitVersion = await updater.getGitVersion();
 	const localVersion = await updater.localVersion;
 	console.log(`Local version: ${localVersion} + TICKLE TIME`);
+	const version = document.querySelector("#version");
+	version.innerHTML = `${localVersion}`;
 
-	if (await updater.compareVersions()) {
+	if ((await updater.compareVersions()) == -1) {
 		const updateAlert = document.querySelector("#updateAlert");
 		updateAlert.classList.remove("hidden");
 		updateAlert.classList.add("flex");
@@ -39,7 +41,6 @@ async function checkForUpdates() {
 		updateLink.href = `https://github.com${updater.githubURL}`;
 	} else {
 		console.log("No update available");
-		document.querySelector("#updateAvailable").style.display = "none";
 	}
 }
 

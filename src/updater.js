@@ -15,7 +15,7 @@ class Updater {
     https: //github.com/${this.githubPath}/releases/latest`;
 
 		this.getLocalVersion();
-		this.getGitVerion();
+		this.getGitVersion();
 	}
 	// Gets local version
 	getLocalVersion() {
@@ -28,7 +28,7 @@ class Updater {
 	}
 
 	// Gets remote version
-	async getGitVerion() {
+	async getGitVersion() {
 		const response = await fetch(
 			`https://api.github.com/repos/${this.githubPath}/releases/latest`
 		);
@@ -38,17 +38,28 @@ class Updater {
 		return this.gitVersion;
 	}
 
-	// Compare local and remote version
 	async compareVersions() {
-		const gitVersion = this.gitVersion;
-		const localVersion = this.localVersion;
-		console.log(
-			`updater.js | Local version: ${localVersion}  Remote version: ${gitVersion}`
-		);
-		if (gitVersion !== `v${localVersion}`) {
-			return true;
-		} else {
-			return false;
+		let localVersion = this.localVersion;
+		let gitVersion = await this.getGitVersion();
+
+		gitVersion = gitVersion.slice(1);
+
+		console.log(`updater.js | Local version: ${localVersion}`);
+		console.log(`updater.js | Remote version: ${gitVersion}`);
+
+		const currentParts = localVersion.split(".").map(Number);
+		const requiredParts = gitVersion.split(".").map(Number);
+
+		for (let i = 0; i < 3; i++) {
+			if (currentParts[i] < requiredParts[i]) {
+				console.log("Update available");
+				return -1; // Current version is lower
+			} else if (currentParts[i] > requiredParts[i]) {
+				console.log("No update available");
+				return 1; // Current version is higher
+			}
 		}
+		console.log("Versions are equal");
+		return 0; // Versions are equal
 	}
 }
