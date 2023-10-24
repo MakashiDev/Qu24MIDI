@@ -12,6 +12,39 @@ let levelOutput = document.querySelector("#levelsOutput");
 let mutesCopy = document.querySelector("#mutesCopy");
 let levelsCopy = document.querySelector("#levelsCopy");
 
+// Check for updates
+const updater = new Updater("MakashiDev/Qu24_SysEx_Generator");
+async function checkForUpdates() {
+	const gitVersion = await updater.getGitVerion();
+	const localVersion = await updater.localVersion;
+	console.log(`Local version: ${localVersion} + TICKLE TIME`);
+
+	if (await updater.compareVersions()) {
+		const updateAlert = document.querySelector("#updateAlert");
+		updateAlert.classList.remove("hidden");
+		updateAlert.classList.add("flex");
+
+		const updateCloseButton = document.querySelector("#updateClose");
+		updateCloseButton.addEventListener("click", (ev) => {
+			updateAlert.classList.remove("flex");
+			updateAlert.classList.add("hidden");
+		});
+
+		const updateAlertMessage = document.querySelector(
+			"#updateAlertMessage"
+		);
+		updateAlertMessage.innerHTML = `Update available: ${localVersion} -> ${gitVersion}`;
+
+		const updateLink = document.querySelector("#updateLink");
+		updateLink.href = `https://github.com${updater.githubURL}`;
+	} else {
+		console.log("No update available");
+		document.querySelector("#updateAvailable").style.display = "none";
+	}
+}
+
+checkForUpdates();
+
 navigator.permissions.query({ name: "clipboard-write" }).then((result) => {
 	if (result.state === "granted" || result.state === "prompt") {
 		console.log("Permission granted");
