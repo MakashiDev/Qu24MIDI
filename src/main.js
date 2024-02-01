@@ -6,11 +6,16 @@ let levelsMIDIChannel = document.querySelector("#levelsMIDIChannel");
 let levelsQuChannel = document.querySelector("#levelsQuChannel");
 let level = document.querySelector("#level");
 
+let sceneMIDIChannel = document.querySelector(`#scenesMidiChannel`);
+let scene = document.querySelector("#sceneSelect");
+
 let muteOutput = document.querySelector("#mutesOutput");
 let levelOutput = document.querySelector("#levelsOutput");
+let sceneOutput = document.querySelector(`#sceneOutput`);
 
 let mutesCopy = document.querySelector("#mutesCopy");
 let levelsCopy = document.querySelector("#levelsCopy");
+let scenesCopy = document.querySelector(`#scenesCopy`);
 
 // Check for updates
 const updater = new Updater("MakashiDev/Qu24_SysEx_Generator");
@@ -73,6 +78,11 @@ levelsCopy.addEventListener("click", (ev) => {
 	console.log(muteOutput.innerHTML);
 	navigator.clipboard.writeText(levelOutput.innerHTML);
 });
+scenesCopy.addEventListener("click", (ev) => {
+	console.log(ev);
+	console.log(sceneOutput.innerHTML);
+	navigator.clipboard.writeText(sceneOutput.innerHTML);
+});
 
 mutesMIDIChannel.addEventListener("change", updateMuteOutput);
 mutesQuChannel.addEventListener("change", updateMuteOutput);
@@ -100,7 +110,18 @@ function updateLevelOutput() {
 	console.log(levelOutput.innerText);
 }
 
+sceneMIDIChannel.addEventListener("change", updateSceneOutput);
+scene.addEventListener("change", updateSceneOutput);
+
+function updateSceneOutput() {
+	let translate = new Translate(sceneMIDIChannel.value);
+	sceneOutput.innerText = translate.recallScene(
+		parseInt(scene.value)
+	);
+}
+
 window.onload = function () {
 	updateMuteOutput();
 	updateLevelOutput();
+	updateSceneOutput();
 };
