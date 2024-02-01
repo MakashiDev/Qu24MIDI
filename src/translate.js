@@ -1,6 +1,6 @@
 /*
  * This translate's commands into MIDI messages.
- * Developed by: Christian Furr
+ * Developed by: Christian Furr and Max McDaniel
  * Version: 1.0
  */
 
@@ -88,10 +88,127 @@ const faderLevels = {
 	"-inf": "00",
 };
 
+// Added by Max
+const sceneIdentifiers ={
+	1: "00",
+	2: "01",
+	3: "02",
+	4: "03",
+	5: "04",
+	6: "05",
+	7: "06",
+	8: "07",
+	9: "08",
+	10: "09",
+	11: "0A",
+	12: "0B",
+	13: "0C",
+	14: "0D",
+	15: "0E",
+	16: "0F",
+	17: "11",
+	18: "10",
+	19: "12",
+	20: "13",
+	21: "14",
+	22: "15",
+	23: "16",
+	24: "17",
+	25: "18",
+	26: "19",
+	27: "1A",
+	28: "1B",
+	29: "1C",
+	30: "1D",
+	31: "1E",
+	32: "1F",
+	33: "20",
+	34: "21",
+	35: "22",
+	36: "23",
+	37: "24",
+	38: "25",
+	39: "26",
+	40: "27",
+	41: "28",
+	42: "29",
+	43: "2A",
+	44: "2B",
+	45: "2C",
+	46: "2D",
+	47: "2E",
+	48: "2F",
+	49: "30",
+	50: "31",
+	51: "32",
+	52: "33",
+	53: "34",
+	54: "35",
+	55: "36",
+	56: "37",
+	57: "38",
+	58: "39",
+	59: "3A",
+	60: "3B",
+	61: "3C",
+	62: "3D",
+	63: "3E",
+	64: "3F",
+	65: "40",
+	66: "41",
+	67: "42",
+	68: "43",
+	69: "44",
+	70: "45",
+	71: "46",
+	72: "47",
+	73: "48",
+	74: "49",
+	75: "4A",
+	76: "4B",
+	77: "4C",
+	78: "4D",
+	79: "4E",
+	80: "4F",
+	81: "50",
+	82: "51",
+	83: "52",
+	84: "53",
+	85: "54",
+	86: "55",
+	87: "56",
+	88: "57",
+	89: "58",
+	90: "59",
+	91: "5A",
+	92: "5B",
+	93: "5C",
+	94: "5D",
+	95: "5E",
+	96: "5F",
+	97: "60",
+	98: "61",
+	99: "62",
+	100: "63"
+};
+
 class Translate {
 	constructor(midiChannel) {
+		this.sceneIdentifiers = sceneIdentifiers;
 		this.channelNumbers = channelNumbers;
 		this.midiChannel = midiChannel - 1;
+	}
+
+	// Added by Max
+	recallScene(scene) {
+		var sceneHex = this.sceneIdentifiers[scene];
+		var midiChan = this.midiChannel;
+		var part1 = this.format(["B" + midiChan, "00", "00"]);
+		var part2 = this.format(["B" + midiChan, "20", "00"]);
+		var part3 = this.format(["C" + midiChan, sceneHex, ""]);
+		const message = this.formatParts([part1, part2, part3]);
+
+		return message;
 	}
 
 	muteON(channel) {
